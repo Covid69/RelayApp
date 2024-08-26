@@ -102,8 +102,12 @@ class USBRelayManager(tk.Tk):
             warnings.warn(f"No port has been opened")
         else:
             print(f"Closing relay {relay_index}")
-            # Implement logic to send close command and update status label (e.g., "Closed")
-            self.relays[relay_index][2].config(text="Closed")  # Update status label to "Closed"
+            mask = ~(1 << relay_index)
+            intValue = int(self.interface.current_status) & mask
+            sendData = str(intValue).encode()
+            print(sendData)
+            self.interface.serial_write(bytes(sendData))
+            self.update_relay_stat()
 
     def find_com_port(self):
         ports = list(serial.tools.list_ports.comports())

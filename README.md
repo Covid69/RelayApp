@@ -1,6 +1,6 @@
 
 ## USB Relay Application
-
+![GuiApp](https://i.imgur.com/pDwbruV.png)
 ### Description
 
 RelayApp is a Python application designed to provide a user-friendly interface for controlling USB relays. It allows you to easily manage the state of your relays, view their status, and potentially integrate with other systems or devices.
@@ -11,7 +11,7 @@ RelayApp is a Python application designed to provide a user-friendly interface f
 There are two main ways to install RelayApp:
 
 **Running GuiApp:** 
- - Create virtual environment `python -m venv <venv_name>`
+ - Create virtual environment `python -m venv <venv_name>`![enter image description here](https://imgur.com/rmleTFB)
  - Install necessary library `pip install -r requirements.txt`
  - run gui.py `python gui.py`
 

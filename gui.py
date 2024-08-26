@@ -1,21 +1,27 @@
 import tkinter as tk
-from relay_app import Relay
+from relay_app import RelayApp
+import serial.tools.list_ports
+import re
+import warnings
+
 
 class USBRelayManager(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("USB Relay Manager")
         self.geometry("400x300")
+        self.port_list = []
+        self.find_com_port()
+        self.interface = None
 
         # Device Selection
         self.device_label = tk.Label(self, text="Select Device:")
         self.device_label.pack()
         self.device_var = tk.StringVar()
         # self.device_menu = tk.OptionMenu(self, self.device_var, *["Device 1", "Device 2", "Device 3"])
-        print(interface.port_list)
-        self.device_menu = tk.OptionMenu(self, self.device_var, *interface.port_list)
-
+        self.device_menu = tk.OptionMenu(self, self.device_var, *self.port_list)
         self.device_menu.pack()
+    
 
         # Open/Close Device Buttons
         device_control_frame = tk.Frame(self)
@@ -50,17 +56,36 @@ class USBRelayManager(tk.Tk):
 
     # Placeholder functions for relay control (update status labels)
     def open_device(self):
-      print("Opening device...")
-      # Implement logic to update relay statuses after opening device
-
+        # Implement logic to update relay statuses after opening device
+        print("Opening device...")
+        if self.interface != None:
+            warnings.warn(f"Another COM port has already been opened. Close it first")
+        else:
+            try:
+                self.interface = RelayApp(self.device_var.get())
+            finally:
+                if self.interface == None:
+                    warnings.warn(f"Failed to open COM: {self.device_var.get()}")
+                else:
+                    print(f"{self.device_var.get()} opened successfully")
+      
     def close_device(self):
-      print("Closing device...")
+        print("Closing device...")
+        if self.interface == None:
+            warnings.warn(f"No port has been opened")
+        else:
+           print(f"{self.device_var.get()} closed successfully")
+           self.interface = None
+
       # Implement logic to update relay statuses after closing device
 
     def open_relay(self, relay_index):
-      print(f"Opening relay {relay_index}")
-      # Implement logic to send open command and update status label (e.g., "Open")
-      self.relays[relay_index][2].config(text="Open")  # Update status label to "Open"
+        if self.interface == None:
+            warnings.warn(f"No port has been opened")
+        else:
+            print(f"Opening relay {relay_index}")
+            # Implement logic to send open command and update status label (e.g., "Open")
+            self.relays[relay_index][2].config(text="Open")  # Update status label to "Open"
 
     def close_relay(self, relay_index):
       print(f"Closing relay {relay_index}")
@@ -75,7 +100,12 @@ class USBRelayManager(tk.Tk):
       print("Closing all relays...")
       # Implement logic to close all relays and update statuses
 
+    def find_com_port(self):
+        ports = list(serial.tools.list_ports.comports())
+        for port,Description,port1 in sorted(ports):
+            print("{}".format(port))
+            self.port_list.append(port)
+
 if __name__ == "__main__":
-  interface = Relay("COM6", 115200)
   app = USBRelayManager()
   app.mainloop()

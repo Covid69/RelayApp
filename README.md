@@ -21,12 +21,12 @@ There are two main ways to install RelayApp:
  - Install necessary library `pip install -r requirements.txt`
 
 - Go to your program’s directory and run:
-`python pyinstaller --noconsole gui.py`
+`pyinstaller --noconsole gui.py`
 
 - This will generate the bundle in a subdirectory called `dist`.
- `python pyinstaller -F gui.py`
+ `pyinstaller -F --noconsole gui.py`
 
 - Adding -F (or --onefile) parameter will pack everything into single "exe".
-`python pyinstaller -F --paths=<venv_name>\Lib\site-packages  gui.py`
+`pyinstaller -F --paths=<venv_name>\Lib\site-packages --noconsole  gui.py`
 - Executable file can be found in dist\gui\gui.exe
 

@@ -11,7 +11,7 @@ class RelayApp:
         time.sleep(0.1)
         self.ser = serial.Serial(self.port, self.baud)
         self.current_status = self.read_state()
-        print (self.current_status)
+        # print (self.current_status)
 
          
     def serial_write(self, data_send:bytes):

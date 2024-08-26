@@ -28,9 +28,9 @@ class USBRelayManager(tk.Tk):
         # Open/Close Device Buttons
         device_control_frame = tk.Frame(self)
         device_control_frame.pack(pady=20)
-        self.open_device_button = tk.Button(device_control_frame, text="Open Device", command=self.open_device)
+        self.open_device_button = tk.Button(device_control_frame, text="Open Device", fg="green", command=self.open_device)
         self.open_device_button.pack(side=tk.LEFT)
-        self.close_device_button = tk.Button(device_control_frame, text="Close Device", command=self.close_device)
+        self.close_device_button = tk.Button(device_control_frame, text="Close Device", fg="red", command=self.close_device)
         self.close_device_button.pack(side=tk.LEFT)
 
         # Relay Controls
@@ -44,9 +44,9 @@ class USBRelayManager(tk.Tk):
             relay_label.pack(side=tk.LEFT)
 
             # Open/Close Buttons
-            open_button = tk.Button(relay_frame, text="Open", command=lambda i=i: self.open_relay(i))
+            open_button = tk.Button(relay_frame, text="Open", fg="green", command=lambda i=i: self.open_relay(i))
             open_button.pack(side=tk.LEFT)
-            close_button = tk.Button(relay_frame, text="Close", command=lambda i=i: self.close_relay(i))
+            close_button = tk.Button(relay_frame, text="Close", fg="red", command=lambda i=i: self.close_relay(i))
             close_button.pack(side=tk.LEFT)
             # Status Label
             self.relay_status_label = tk.Label(relay_frame, text="Unknown")  # Initial status as Unknown
@@ -118,17 +118,17 @@ class USBRelayManager(tk.Tk):
     def update_relay_stat(self):
         self.interface.current_status = self.interface.read_state()
         if self.interface.current_status == b'0':
-            self.relays[0][2].config(text="Closed")
-            self.relays[1][2].config(text="Closed")
+            self.relays[0][2].config(text="Closed", fg="red")
+            self.relays[1][2].config(text="Closed", fg="red")
         elif self.interface.current_status == b'1':
-            self.relays[0][2].config(text="Open")
-            self.relays[1][2].config(text="Closed")
+            self.relays[0][2].config(text="Open", fg="green")
+            self.relays[1][2].config(text="Closed", fg="red")
         elif self.interface.current_status == b'2':
-            self.relays[0][2].config(text="Closed")
-            self.relays[1][2].config(text="Open")
+            self.relays[0][2].config(text="Closed", fg="red")
+            self.relays[1][2].config(text="Open", fg="green")
         elif self.interface.current_status == b'3':
-            self.relays[0][2].config(text="Open")
-            self.relays[1][2].config(text="Open")
+            self.relays[0][2].config(text="Open", fg="green")
+            self.relays[1][2].config(text="Open", fg="green")
 
 if __name__ == "__main__":
   app = USBRelayManager()

@@ -7,6 +7,7 @@ RelayApp is a Python application designed to provide a user-friendly interface f
 **Prerequisites:**
 
 -   Python 3.x 
+-   Relay 1 and 2 is set to GPIO4 and GPIO5 respectively (D2 and D1 in NodeMCU and D1 Mini)
 
 There are two main ways to install RelayApp:
 

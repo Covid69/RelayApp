@@ -9,9 +9,10 @@ class USBRelayManager(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("USB Relay Manager")
-        self.geometry("300x300")
+        self.geometry("300x400")
         self.option_add('*font', 'Arial 10')
         self.port_list = []
+        self.port_descriptions = {}
         self.find_com_port()
         self.interface = None
 
@@ -23,7 +24,6 @@ class USBRelayManager(tk.Tk):
         self.device_var.set(self.port_list[-1])
         self.device_menu = tk.OptionMenu(self, self.device_var, *self.port_list)
         self.device_menu.pack()
-    
 
         # Open/Close Device Buttons
         device_control_frame = tk.Frame(self)
@@ -55,6 +55,9 @@ class USBRelayManager(tk.Tk):
             # Store references to buttons and label for each relay
             self.relays.append((open_button, close_button, self.relay_status_label))
 
+        for item in self.port_descriptions:
+            self.device_des = tk.Label(self, text=f"{self.port_descriptions[item]}")
+            self.device_des.pack(side=tk.BOTTOM)
         # Control All Buttons
         control_all_frame = tk.Frame(self)
         control_all_frame.pack(side=tk.BOTTOM, pady=10)  # Add padding below the frame
@@ -129,9 +132,11 @@ class USBRelayManager(tk.Tk):
 
     def find_com_port(self):
         ports = list(serial.tools.list_ports.comports())
-        for port,Description,port1 in sorted(ports):
-            print("{}".format(port))
+        for port,Description, property in sorted(ports):
+            # print("{}".format(port))
+            print("{}".format(Description))
             self.port_list.append(port)
+            self.port_descriptions.update({port:Description})
 
     def open_all(self):
         if self.interface == None:
